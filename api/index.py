@@ -144,7 +144,7 @@ DB_ERROR = None
 def ensure_database_ready():
     """Initialize schema lazily so a stale database cannot take down static/health routes."""
     global DB_READY, DB_ERROR
-    if request.path in {"/", "/api/health", "/favicon.ico", "/favicon.png"}:
+    if request.endpoint in {"index", "health", "static"} or request.path in {"/", "/api/health", "/favicon.ico", "/favicon.png"}:
         return None
     if DB_READY:
         return None
