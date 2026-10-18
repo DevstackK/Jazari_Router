@@ -1,10 +1,12 @@
-# Kong AI Gateway
+# JazariRoute
 
 A self-hosted, free-first multi-provider AI gateway for small teams. It combines direct provider free tiers with OpenRouter's live free-model catalog, automatic failover, private agents, per-user limits, and an OpenAI-compatible API.
 
 Free and open source under the [MIT License](LICENSE). Upstream providers control their own availability, quotas, eligibility, and terms.
 
-[Live app](https://kongllmrouter.vercel.app) · [Complete feature inventory](FEATURES.md) · [Comparison with OmniRoute](COMPARISON.md) · [Roadmap](ROADMAP.md)
+[Live app](https://jazariroute.vercel.app) · [Complete feature inventory](FEATURES.md) · [Comparison with OmniRoute](COMPARISON.md) · [Roadmap](ROADMAP.md)
+
+**Free-first AI routing for everyone.** JazariRoute is named for the 13th-century engineer Ismail al-Jazari. Its elephant-clock mark celebrates engineering that is useful, inventive, and open to the world.
 
 ---
 
@@ -57,8 +59,8 @@ See [FEATURES.md](FEATURES.md) for the full shipped inventory and explicit limit
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/DevstackK/Kongllmrouter.git
-cd Kongllmrouter
+git clone https://github.com/DevstackK/JazariRoute.git
+cd JazariRoute
 python -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt

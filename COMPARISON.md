@@ -1,10 +1,10 @@
-# Kongllmrouter and OmniRoute
+# JazariRoute and OmniRoute
 
 Last reviewed: 18 October 2026. OmniRoute changes quickly; verify its repository before relying on this snapshot.
 
 The two projects share a foundation: one endpoint, multiple LLM providers, free-tier discovery, and automatic fallback. They optimize for different jobs.
 
-| Capability | Kongllmrouter | OmniRoute |
+| Capability | JazariRoute | OmniRoute |
 |---|---|---|
 | Primary audience | Small teams using a hosted shared chat | Developers and coding agents using a broad gateway |
 | Product shape | Multi-user web application plus gateway | Full local/self-hosted AI routing platform |
@@ -26,11 +26,11 @@ The two projects share a foundation: one endpoint, multiple LLM providers, free-
 
 ## Where OmniRoute leads
 
-OmniRoute is substantially ahead in provider breadth, routing sophistication, protocol coverage, resilience layers, coding-tool support, modalities, packaging, documentation, and community maturity. Kongllmrouter should not claim parity in those areas.
+OmniRoute is substantially ahead in provider breadth, routing sophistication, protocol coverage, resilience layers, coding-tool support, modalities, packaging, documentation, and community maturity. JazariRoute should not claim parity in those areas.
 
-## Where Kongllmrouter is deliberately different
+## Where JazariRoute is deliberately different
 
-Kongllmrouter is a smaller application for a host who wants to share a controlled pool of free-tier models with a few people. Accounts, private assistants, persistent conversations, an administrator view, and simple per-user allowances are part of the core experience rather than infrastructure assembled around the gateway.
+JazariRoute is a smaller application for a host who wants to share a controlled pool of free-tier models with a few people. Accounts, private assistants, persistent conversations, an administrator view, and simple per-user allowances are part of the core experience rather than infrastructure assembled around the gateway.
 
 The useful positioning is:
 

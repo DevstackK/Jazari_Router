@@ -25,7 +25,7 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 JWT_SECRET        = os.getenv("JWT_SECRET", "")
-JWT_ISS           = "llm-router"
+JWT_ISS           = os.getenv("JWT_ISS", "jazariroute")
 JWT_EXP_HOURS     = 24
 MAX_USERS         = int(os.getenv("MAX_USERS", "3"))
 DAILY_TOKEN_LIMIT = int(os.getenv("DAILY_TOKEN_LIMIT", "100000"))
@@ -548,8 +548,8 @@ def _stream_openrouter(messages):
     key     = os.getenv("OPENROUTER_API_KEY", "")
     headers = {
         "Authorization": f"Bearer {key}",
-        "HTTP-Referer":  "https://kong-ai-gateway.vercel.app",
-        "X-Title":       "Kong AI Gateway",
+        "HTTP-Referer":  os.getenv("PUBLIC_APP_URL", "https://jazariroute.vercel.app"),
+        "X-Title":       "JazariRoute",
     }
     body = {"model": OR_MODEL, "messages": messages, "max_tokens": 1024, "stream": True}
 
@@ -586,8 +586,8 @@ def _stream_openrouter_model(model_id, messages):
     key     = os.getenv("OPENROUTER_API_KEY", "")
     headers = {
         "Authorization": f"Bearer {key}",
-        "HTTP-Referer":  "https://kong-ai-gateway.vercel.app",
-        "X-Title":       "Kong AI Gateway",
+        "HTTP-Referer":  os.getenv("PUBLIC_APP_URL", "https://jazariroute.vercel.app"),
+        "X-Title":       "JazariRoute",
     }
     body = {"model": model_id, "messages": messages, "max_tokens": 1024, "stream": True}
 
@@ -895,8 +895,8 @@ def _openai_model_to_provider(model):
 def openai_models():
     now = int(time.time())
     data = [
-        {"id": "auto", "object": "model", "created": now, "owned_by": "kongllmrouter"},
-        {"id": "auto/free", "object": "model", "created": now, "owned_by": "kongllmrouter"},
+        {"id": "auto", "object": "model", "created": now, "owned_by": "jazariroute"},
+        {"id": "auto/free", "object": "model", "created": now, "owned_by": "jazariroute"},
     ]
     data.extend(
         {"id": key, "object": "model", "created": now, "owned_by": key}

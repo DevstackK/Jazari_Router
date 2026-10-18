@@ -1,4 +1,4 @@
-# Kong AI Gateway — Complete Setup Guide
+# JazariRoute — Complete Setup Guide
 
 A self-hosted, multi-provider AI chat platform. Routes prompts across Gemini, Groq,
 Mistral, Cohere, and OpenRouter with automatic failover, JWT auth, per-user token
@@ -300,8 +300,8 @@ curl http://localhost:8001/status
 ### Adding plugins without restart (via Admin API)
 
 ```bash
-# Add API key auth to the ai-llm-router service
-curl -X POST http://localhost:8001/services/ai-llm-router/plugins \
+# Add API key auth to the jazariroute service
+curl -X POST http://localhost:8001/services/jazariroute/plugins \
   -d name=key-auth
 
 # Create a consumer and give them a key
@@ -318,7 +318,7 @@ curl -X POST http://localhost:8001/consumers/myapp/key-auth \
 ```yaml
 plugins:
   - name: proxy-cache
-    service: ai-llm-router
+    service: jazariroute
     config:
       response_code: [200]
       request_method: [POST]
@@ -611,7 +611,7 @@ GET    /api/cron/refresh-models         # trigger featured models refresh
 ## File Structure
 
 ```
-kong-ai-gateway/
+jazariroute/
 ├── api/
 │   └── index.py           # Flask app — all routes, SSE streaming, DB, auth
 ├── static/

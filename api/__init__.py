@@ -1,1 +1,1 @@
-"""Kong LLM Router API package."""
+"""JazariRoute API package."""

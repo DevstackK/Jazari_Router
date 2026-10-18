@@ -2,7 +2,7 @@ _format_version: "3.0"
 _transform: true
 
 services:
-  - name: ai-llm-router
+  - name: jazariroute
     url: http://localhost:65535  # dummy — ai-proxy overrides upstream
     routes:
       - name: ai-chat
@@ -33,10 +33,10 @@ services:
                   temperature: 0.7
 
 consumers:
-  - username: llm-router-app
+  - username: jazariroute-app
     jwt_secrets:
       - algorithm: HS256
-        key: llm-router
+        key: jazariroute
         secret: "${JWT_SECRET}"
 
 plugins:

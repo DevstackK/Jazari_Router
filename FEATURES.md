@@ -35,7 +35,7 @@ This document describes capabilities present in the current `main` branch. It do
 
 ## Important limits
 
-- Kongllmrouter does not provide unlimited inference. Every upstream provider controls eligibility, quotas, availability, and terms.
+- JazariRoute does not provide unlimited inference. Every upstream provider controls eligibility, quotas, availability, and terms.
 - `auto` currently uses ordered fallback; it is not latency-, cost-, or health-scored routing.
 - Chat completions are supported. Responses API, embeddings, images, audio, tool-call normalization, MCP, and A2A are not yet implemented.
 - The hosted service requires a working PostgreSQL-compatible `DATABASE_URL` for accounts, quotas, agents, and the model catalog.
