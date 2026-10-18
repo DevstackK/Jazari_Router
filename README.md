@@ -1,6 +1,8 @@
 # Kong AI Gateway
 
-A self-hosted, multi-provider AI chat platform that routes prompts across five free LLM providers with automatic failover, JWT authentication, per-user token limits, and a daily featured models system powered by OpenRouter.
+A self-hosted, free-first multi-provider AI gateway for small teams. It combines direct provider free tiers with OpenRouter's live free-model catalog, automatic failover, private agents, per-user limits, and an OpenAI-compatible API.
+
+Free and open source under the [MIT License](LICENSE). Upstream providers control their own availability, quotas, eligibility, and terms.
 
 ---
 
@@ -8,11 +10,12 @@ A self-hosted, multi-provider AI chat platform that routes prompts across five f
 
 - **Multi-provider routing** — Gemini, Groq, Mistral, Cohere, and OpenRouter in one interface
 - **Auto failover** — if one provider is rate-limited or down, the next picks up instantly
-- **Free models only** — OpenRouter integration enforces `price == 0` at every level
+- **Free models only** — OpenRouter models require both input and output prices to equal zero
+- **OpenAI-compatible** — use `/v1/models` and `/v1/chat/completions` with existing clients
 - **Daily top-10 featured models** — cron job fetches the best free models from OpenRouter every day at 9am UTC
-- **JWT authentication** — every endpoint is protected; first registered account becomes admin
+- **JWT authentication** — protected endpoints and bootstrap-token-controlled first administrator
 - **Per-user token limits** — configurable daily cap, resets at midnight UTC
-- **Agent system** — create named assistants with custom system prompts and persistent history
+- **Private agent system** — each user's assistants and history are tenant-isolated
 - **Admin dashboard** — user management, token usage stats, provider breakdown, activity log
 - **Vercel ready** — deploys as a Python serverless function in one command
 - **Supabase Postgres** — fully stateless server, all data in the cloud
@@ -79,7 +82,7 @@ Tables are created automatically on first run.
 python api/index.py
 ```
 
-Open **http://localhost:5001** — register an account (first account is admin).
+Open **http://localhost:5001**. The first registration must send the configured `ADMIN_BOOTSTRAP_TOKEN`; subsequent registrations do not become administrators.
 
 ---
 
@@ -98,7 +101,7 @@ Add all `.env` variables to your Vercel project dashboard, then:
 vercel --prod
 ```
 
-The cron job (`0 9 * * *`) runs automatically on Vercel Pro. On the free Hobby plan, trigger `/api/cron/refresh-models` manually or via an external scheduler.
+The cron job (`0 9 * * *`) runs automatically where scheduled cron is available. Every refresh request must include `Authorization: Bearer $CRON_SECRET`.
 
 ### Docker + Kong
 
@@ -120,8 +123,12 @@ Kong proxy on **:8000**, admin API on **:8001**. See [HOW_TO.md](HOW_TO.md) for 
 | `COHERE_API_KEY` | Cohere API key |
 | `OPENROUTER_API_KEY` | OpenRouter API key (enables 5th provider + featured models) |
 | `OPENROUTER_MODEL` | Default model — must end in `:free` |
-| `JWT_SECRET` | Long random string for signing tokens |
+| `JWT_SECRET` | Random secret of at least 32 characters; required in production |
+| `GATEWAY_API_KEY` | Stable bearer key for OpenAI-compatible clients |
+| `ADMIN_BOOTSTRAP_TOKEN` | Required to create the first administrator |
 | `RESET_SECRET` | Passphrase for the password reset endpoint |
+| `CRON_SECRET` | Bearer secret protecting the catalog refresh endpoint |
+| `APP_ORIGINS` | Comma-separated browser origins allowed by CORS |
 | `MAX_USERS` | Maximum registered accounts |
 | `DAILY_TOKEN_LIMIT` | Per-user token cap per day |
 | `DATABASE_URL` | Supabase session pooler connection string |
@@ -138,6 +145,8 @@ POST /api/login             Login and receive a JWT
 GET  /api/health            Provider configuration status
 GET  /api/providers         List available providers and featured models
 POST /api/chat              Stream a chat response (SSE)
+GET  /v1/models             OpenAI-compatible model catalog
+POST /v1/chat/completions   OpenAI-compatible chat (streaming or JSON)
 GET  /api/agents            List agents
 POST /api/agents            Create an agent
 DELETE /api/agents/:id      Delete an agent

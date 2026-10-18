@@ -52,12 +52,39 @@
 
   .empty { text-align: center; color: #444; padding: 32px 16px; font-size: 13px; }
   .error-bar { background: #2d1515; border: 1px solid #5a2020; border-radius: 8px; padding: 12px 16px; color: #f87171; font-size: 13px; margin-bottom: 24px; display: none; }
+  :root {
+    --surface-raised:#EEEEE8; --surface:#FFFFFF; --accent:#D8FF00; --accent-ink:#5D7600;
+    --ink:#040D10; --ink-muted:#575F5F; --ink-soft:#849396; --danger:#FF6159;
+    --success:#28C941; --warning:#FFBD2E; --light:#EFF7F7; --radius-sm:4px; --radius-full:9999px;
+    --space-6:8px; --space-10:12px; --space-13:16px; --space-18:24px; --space-21:32px;
+    --font-display:"Instrument Serif","Times New Roman",serif; --font-ui:Inter,Arial,sans-serif; --font-mono:"IBM Plex Mono",monospace;
+  }
+  body { background:var(--surface-raised); color:var(--ink); font-family:var(--font-ui); }
+  .topbar { background:var(--ink); border-color:var(--ink); color:var(--surface); }
+  .topbar h1 { color:var(--accent); font-family:var(--font-display); font-size:22px; }
+  .admin-badge { background:var(--accent); color:var(--ink); border-radius:var(--radius-full); }
+  .back-btn,.signout-btn { border-color:var(--ink-soft); color:var(--light); border-radius:var(--radius-sm); }
+  .back-btn:hover,.signout-btn:hover { color:var(--accent); border-color:var(--accent); }
+  .section-title { color:var(--ink-muted); font-family:var(--font-mono); }
+  .stat-card,.provider-card,.table-wrap,.activity-wrap { background:var(--surface); border-color:var(--ink-soft); border-radius:var(--radius-sm); }
+  .stat-value { font-family:var(--font-display); font-weight:400; }
+  .stat-label,.provider-row,.activity-meta { color:var(--ink-muted); }
+  .provider-name { color:var(--accent-ink); }
+  th { color:var(--ink-muted); border-color:var(--surface-raised); font-family:var(--font-mono); }
+  td,.activity-item { border-color:var(--surface-raised); }
+  tr:hover td { background:var(--light); }
+  .badge-admin { background:var(--accent); color:var(--ink); border-radius:var(--radius-full); }
+  .del-btn { border-color:var(--ink-soft); color:var(--ink-muted); border-radius:var(--radius-sm); }
+  .del-btn:hover { border-color:var(--danger); color:var(--danger); }
+  button:focus-visible,a:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  button,a { transition:background-color .18s,color .18s,border-color .18s,transform .12s; }
+  @media(max-width:720px){.container{padding:var(--space-18) var(--space-13)}.topbar{padding:var(--space-10)}.table-wrap{overflow-x:auto}.activity-meta{display:none}}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <h1>⚡ LLM Router</h1>
+  <h1>Kong Router</h1>
   <span class="admin-badge">Admin</span>
   <a href="/" class="back-btn">← Back to App</a>
   <button class="signout-btn" onclick="logout()">Sign Out</button>

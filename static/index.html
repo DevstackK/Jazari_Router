@@ -115,13 +115,74 @@
   .auth-toggle a { color: #a5b4fc; text-decoration: none; }
   .logout-btn { margin-left: auto; background: none; border: 1px solid #333; color: #777; cursor: pointer; font-size: 11px; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.3px; }
   .logout-btn:hover { border-color: #f87171; color: #f87171; }
+  /* Kongllmrouter design tokens */
+  :root {
+    --surface-raised: #EEEEE8; --surface: #FFFFFF; --accent: #D8FF00;
+    --accent-ink: #5D7600; --ink: #040D10; --ink-muted: #575F5F;
+    --ink-soft: #849396; --success: #28C941; --warning: #FFBD2E;
+    --danger: #FF6159; --mint: #43E7A2; --light: #EFF7F7;
+    --radius-sm: 4px; --radius-full: 9999px;
+    --space-2: 4px; --space-4: 6px; --space-6: 8px; --space-8: 10px;
+    --space-10: 12px; --space-13: 16px; --space-16: 20px; --space-18: 24px;
+    --space-21: 32px; --space-22: 40px;
+    --font-display: "Instrument Serif", "Times New Roman", serif;
+    --font-ui: Inter, Arial, sans-serif; --font-mono: "IBM Plex Mono", monospace;
+  }
+  body { background: var(--surface); color: var(--ink); font-family: var(--font-ui); }
+  .sidebar { width: 280px; background: var(--ink); border-color: var(--ink); color: var(--light); }
+  .sidebar-header { padding: var(--space-18) var(--space-13); border-color: var(--ink-muted); color: var(--accent); font-family: var(--font-display); font-size: 22px; }
+  .sidebar-section { color: var(--ink-soft); font-family: var(--font-mono); }
+  .model-select, option { background: var(--ink); color: var(--light); border-color: var(--ink-muted); border-radius: var(--radius-sm); }
+  .model-select:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .agent-item, .new-chat-btn, .new-agent-btn, .logout-btn { border-radius: var(--radius-sm); }
+  .agent-item:hover, .new-chat-btn:hover { background: var(--ink-muted); color: var(--surface); }
+  .agent-item.active { background: var(--accent); color: var(--ink); }
+  .new-agent-btn, .send-btn, .btn-save, .auth-submit { background: var(--accent); color: var(--ink); font-weight: 700; }
+  .new-agent-btn:hover, .send-btn:hover:not(:disabled), .btn-save:hover, .auth-submit:hover { background: var(--mint); transform: translateY(-1px); }
+  .new-agent-btn:active, .send-btn:active:not(:disabled), .btn-save:active, .auth-submit:active { transform: translateY(0); }
+  .send-btn:disabled { background: var(--surface-raised); color: var(--ink-soft); }
+  .topbar, .input-area { background: var(--surface); border-color: var(--surface-raised); }
+  .topbar-title { font-family: var(--font-display); font-size: 22px; }
+  .provider-badge { background: var(--ink); color: var(--accent); border-radius: var(--radius-full); font-family: var(--font-mono); }
+  .messages { background: var(--surface-raised); }
+  .message.user .avatar { background: var(--accent); color: var(--ink); }
+  .message.assistant .avatar { background: var(--ink); color: var(--accent); }
+  .bubble { border-radius: var(--radius-sm); }
+  .message.user .bubble { background: var(--ink); color: var(--surface); }
+  .message.assistant .bubble { background: var(--surface); border-color: var(--ink-soft); color: var(--ink); }
+  .msg-meta { color: var(--ink-muted); font-family: var(--font-mono); }
+  .input-row { background: var(--surface); border-color: var(--ink-soft); border-radius: var(--radius-sm); }
+  .input-row:focus-within { border-color: var(--accent-ink); box-shadow: 0 0 0 2px var(--accent); }
+  textarea { color: var(--ink); }
+  textarea::placeholder { color: var(--ink-soft); }
+  .empty-state { color: var(--ink-muted); }
+  .empty-state h2 { color: var(--ink); font-family: var(--font-display); font-size: 52px; font-weight: 400; }
+  .modal-overlay { background: color-mix(in srgb, var(--ink) 78%, transparent); }
+  .modal, .models-popup, .auth-box { background: var(--surface); border-color: var(--ink); border-radius: var(--radius-sm); color: var(--ink); }
+  .modal input, .modal textarea, .modal select, .auth-box input { background: var(--surface-raised); border-color: var(--ink-soft); color: var(--ink); border-radius: var(--radius-sm); }
+  .auth-overlay { background: var(--surface-raised); }
+  .auth-box h1 { color: var(--ink); font-family: var(--font-display); font-size: 52px; font-weight: 400; }
+  .auth-sub, .auth-box label, .modal p, .modal label { color: var(--ink-muted); }
+  .auth-err { background: var(--surface); border-color: var(--danger); color: var(--danger); border-radius: var(--radius-sm); }
+  .auth-toggle a, .auth-invite a { color: var(--accent-ink); }
+  button, a, select { transition: background-color .18s, color .18s, border-color .18s, transform .12s; }
+  @media (max-width: 720px) {
+    body { flex-direction: column; overflow: hidden; }
+    .sidebar { width: 100%; max-height: 210px; }
+    .sidebar-header { padding: var(--space-10) var(--space-13); }
+    .agent-list { display: none; }
+    .messages { padding: var(--space-13); }
+    .message.user, .message.assistant { max-width: 92%; }
+    .empty-state h2 { font-size: 22px; }
+    .modal, .auth-box { width: calc(100vw - 32px); padding: var(--space-18); }
+  }
 </style>
 </head>
 <body>
 
 <div id="authOverlay" class="auth-overlay">
   <div class="auth-box">
-    <h1>⚡ LLM Router</h1>
+    <h1>Kong Router</h1>
     <p class="auth-sub" id="authSub">Sign in to continue</p>
     <div class="auth-err" id="authErr"></div>
     <div class="auth-invite" id="authInvite">
@@ -141,7 +202,7 @@
   </div>
 
   <div class="auth-box" id="resetBox" style="display:none;">
-    <h1>⚡ LLM Router</h1>
+    <h1>Kong Router</h1>
     <p class="auth-sub">Reset your password</p>
     <div class="auth-err" id="resetErr"></div>
     <div id="resetOk" style="display:none; background:#1e3a2f; border:1px solid #2a6b4f; border-radius:8px; padding:8px 12px; font-size:13px; color:#6ee7b7; margin-bottom:8px;">Password updated — sign in below.</div>
@@ -157,7 +218,7 @@
 </div>
 
 <div class="sidebar">
-  <div class="sidebar-header">⚡ LLM Router<button class="logout-btn" onclick="logout()">Sign out</button></div>
+  <div class="sidebar-header">Kong Router<button class="logout-btn" onclick="logout()">Sign out</button></div>
 
   <div class="sidebar-section">Model</div>
   <select class="model-select" id="modelSelect">
@@ -185,8 +246,8 @@
 
   <div class="messages" id="messages">
     <div class="empty-state">
-      <h2>Kong AI Gateway</h2>
-      One interface, five free AI providers — auto-switches when one hits its limit
+      <h2>Free intelligence,<br>routed fairly.</h2>
+      One trusted gateway to free-tier AI models, with automatic fallback when limits move.
     </div>
   </div>
 
