@@ -4,6 +4,8 @@ A self-hosted, free-first multi-provider AI gateway for small teams. It combines
 
 Free and open source under the [MIT License](LICENSE). Upstream providers control their own availability, quotas, eligibility, and terms.
 
+[Live app](https://kongllmrouter.vercel.app) · [Complete feature inventory](FEATURES.md) · [Comparison with OmniRoute](COMPARISON.md) · [Roadmap](ROADMAP.md)
+
 ---
 
 ## Features
@@ -19,6 +21,8 @@ Free and open source under the [MIT License](LICENSE). Upstream providers contro
 - **Admin dashboard** — user management, token usage stats, provider breakdown, activity log
 - **Vercel ready** — deploys as a Python serverless function in one command
 - **Supabase Postgres** — fully stateless server, all data in the cloud
+
+See [FEATURES.md](FEATURES.md) for the full shipped inventory and explicit limitations. For a current, evidence-based positioning against OmniRoute, see [COMPARISON.md](COMPARISON.md).
 
 ---
 
