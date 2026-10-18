@@ -136,7 +136,27 @@ def init_db():
         """)
 
 
-init_db()
+DB_READY = False
+DB_ERROR = None
+
+
+@app.before_request
+def ensure_database_ready():
+    """Initialize schema lazily so a stale database cannot take down static/health routes."""
+    global DB_READY, DB_ERROR
+    if request.path in {"/", "/api/health", "/favicon.ico", "/favicon.png"}:
+        return None
+    if DB_READY:
+        return None
+    try:
+        init_db()
+        DB_READY = True
+        DB_ERROR = None
+    except Exception as exc:
+        DB_ERROR = str(exc).splitlines()[0]
+        log.error("database unavailable: %s", DB_ERROR)
+        return jsonify({"error": "Database temporarily unavailable", "code": "database_unavailable"}), 503
+    return None
 
 
 # ── Auth helpers ──────────────────────────────────────────────────────────────
@@ -843,10 +863,19 @@ def health():
         "cohere":     "COHERE_API_KEY",
         "openrouter": "OPENROUTER_API_KEY",
     }
-    return jsonify({
+    database_ok = False
+    try:
+        with get_db() as db:
+            db.execute("SELECT 1")
+            database_ok = True
+    except Exception as exc:
+        log.warning("health database check failed: %s", str(exc).splitlines()[0])
+    status = {
         k: {"name": v["name"], "configured": bool(os.getenv(env_keys.get(k, "")))}
         for k, v in PROVIDER_META.items()
-    })
+    }
+    status["database"] = {"configured": bool(DATABASE_URL), "available": database_ok}
+    return jsonify(status)
 
 
 # ── OpenAI-compatible API ───────────────────────────────────────────────────────────────────────
